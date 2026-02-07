@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Invite</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        background: linear-gradient(to bottom, #1a001a, #330033);
+        font-family: 'Great Vibes', cursive;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
+        color: #fff;
+        animation: pulseBG 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseBG {
+        0% { background: linear-gradient(to bottom, #1a001a, #330033); }
+        50% { background: linear-gradient(to bottom, #330033, #660066); }
+        100% { background: linear-gradient(to bottom, #1a001a, #330033); }
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 50px;
+        font-size: 4rem;
+        color: #ff4b5c;
+        text-shadow: 0 0 25px #ff4b5c, 0 0 50px #ff99aa;
+        font-weight: bold;
+    }
+
+    .btn {
+        padding: 20px 40px;
+        margin: 10px;
+        font-size: 2rem;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 15px #ff4b5c, 0 0 30px #ff99aa inset;
+        font-weight: bold;
+    }
+
+    #yesBtn {
+        background-color: #ff4b5c;
+        color: #fff;
+        text-shadow: 0 0 10px #fff;
+    }
+
+    #noBtn {
+        background-color: #fff;
+        color: #ff4b5c;
+        position: absolute;
+        font-weight: bold;
+        font-size: 1.8rem;
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        50% { transform: translateX(10px); }
+        75% { transform: translateX(-10px); }
+    }
+
+    .shake { animation: shake 0.3s; }
+
+    #message {
+        margin-top: 50px;
+        font-size: 2.5rem;
+        color: #ffcad4;
+        text-align: center;
+        line-height: 1.6;
+        max-width: 800px;
+        text-shadow: 0 0 25px #ff4b5c;
+        font-weight: bold;
+        position: relative;
+    }
+
+    /* Hearts, Petals & Sparkles */
+    .heart, .loveEmoji {
+        position: absolute;
+        font-size: 30px;
+        animation: floatUp 4s linear infinite;
+    }
+
+    @keyframes floatUp {
+        0% { transform: translateY(0) scale(1); opacity: 1; }
+        100% { transform: translateY(-600px) scale(1.5); opacity: 0; }
+    }
+
+    .petal {
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        background: radial-gradient(circle at 50% 50%, #ff4b5c 0%, #ffcad4 100%);
+        border-radius: 50%;
+        opacity: 0.8;
+        animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+        0% { transform: translateY(-50px) rotate(0deg); }
+        100% { transform: translateY(100vh) rotate(360deg); }
+    }
+
+    .sparkle {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: yellow;
+        border-radius: 50%;
+        opacity: 0.7;
+        animation: sparkle 2s linear infinite;
+    }
+
+    @keyframes sparkle {
+        0% { transform: scale(0.5); opacity: 0.5; }
+        50% { transform: scale(1.5); opacity: 1; }
+        100% { transform: scale(0.5); opacity: 0.5; }
+    }
+</style>
+</head>
+<body>
+
+<h1 id="headline">Boo, will you be my Valentine? 💖</h1>
+<button id="yesBtn" class="btn">YES ❤️</button>
+<button id="noBtn" class="btn">NO 💔</button>
+<div id="message"></div>
+
+<!-- Background music -->
+<audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_32bde0c2b1.mp3?filename=romantic-piano-10730.mp3" autoplay loop></audio>
+
+<script>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const messageDiv = document.getElementById('message');
+    const headline = document.getElementById('headline');
+    const bgMusic = document.getElementById('bgMusic');
+
+    // Ensure music plays (some browsers require interaction)
+    document.body.addEventListener('click', () => {
+        bgMusic.play();
+    }, { once: true });
+
+    // NO button escape
+    noBtn.addEventListener('mouseover', () => {
+        const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+        const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+        noBtn.style.left = x + 'px';
+        noBtn.style.top = y + 'px';
+        noBtn.classList.add('shake');
+        setTimeout(() => noBtn.classList.remove('shake'), 300);
+
+        // Increase YES button size
+        let currentSize = parseInt(window.getComputedStyle(yesBtn).fontSize);
+        yesBtn.style.fontSize = (currentSize + 3) + 'px';
+    });
+
+    // Typing effect
+    function typeMessage(text, element, speed = 50) {
+        let i = 0;
+        element.innerHTML = '';
+        const typing = setInterval(() => {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+            } else clearInterval(typing);
+        }, speed);
+    }
+
+    // YES button click
+    yesBtn.addEventListener('click', () => {
+        headline.remove();
+        yesBtn.remove();
+        noBtn.remove();
+
+        const loveText = "To my beautiful wife, thank you for being the love of my life and the rock of our family. 💖 I am so grateful for you every single day. Happy Valentine's Day! 🌹❤️";
+        typeMessage(loveText, messageDiv, 50);
+
+        // Floating hearts
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.fontSize = 25 + Math.random() * 20 + 'px';
+            const emojis = ['❤️','💘','💕','💞','💖'];
+            heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
+        }, 200);
+
+        // Rose petals
+        setInterval(() => {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            petal.style.left = Math.random() * window.innerWidth + 'px';
+            petal.style.width = 20 + Math.random() * 20 + 'px';
+            petal.style.height = 20 + Math.random() * 20 + 'px';
+            petal.style.animationDuration = 4 + Math.random() * 2 + 's';
+            document.body.appendChild(petal);
+            setTimeout(() => petal.remove(), 6000);
+        }, 200);
+
+        // Sparkles
+        setInterval(() => {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.style.left = Math.random() * window.innerWidth + 'px';
+            sparkle.style.top = Math.random() * window.innerHeight + 'px';
+            sparkle.style.width = 5 + Math.random() * 5 + 'px';
+            sparkle.style.height = sparkle.style.width;
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 2000);
+        }, 300);
+
+        // Hearts orbiting around message
+        setInterval(() => {
+            const orbitHeart = document.createElement('div');
+            orbitHeart.classList.add('heart');
+            const radius = 120 + Math.random() * 50;
+            const angle = Math.random() * 2 * Math.PI;
+            orbitHeart.style.left = messageDiv.offsetLeft + messageDiv.offsetWidth/2 + radius * Math.cos(angle) + 'px';
+            orbitHeart.style.top = messageDiv.offsetTop + messageDiv.offsetHeight/2 + radius * Math.sin(angle) + 'px';
+            orbitHeart.style.fontSize = 25 + Math.random() * 20 + 'px';
+            orbitHeart.innerHTML = ['💖','❤️','💕'][Math.floor(Math.random()*3)];
+            document.body.appendChild(orbitHeart);
+            setTimeout(() => orbitHeart.remove(), 5000);
+        }, 200);
+
+    });
+</script>
+
+</body>
+</html>
